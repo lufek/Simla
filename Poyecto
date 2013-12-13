@@ -1,0 +1,117 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>..:: SIMLA ::..</title>
+	<link rel="stylesheet" href="css/style.css" media="screen">
+	<link rel="stylesheet" href="css/login.css" media="screen">
+	<script src="js/plugins.js"></script>
+	<script src="js/jquery-1.7.1.min.js"></script>
+	<script  type="text/javascript">
+			$(document).ready(function(){
+			$("#login_a").click(function(){
+				$("#shadow").fadeIn("normal");
+				 $("#login_form").fadeIn("normal");
+				 $("#usuario").focus();
+			});
+			$("#cancel_hide").click(function(){
+				$("#login_form").fadeOut("normal");
+				$("#shadow").fadeOut();
+		   });
+		   $("#login").click(function(){
+
+				usuario=$("#usuario").val();
+				clave=$("#clave").val();
+				 $.ajax({
+					type: "POST",
+					url: "login.php",
+					data: "usuario="+usuario+"&clave="+clave,
+					success: function(html){
+					  if(html=='true')
+					  {
+						$("#login_form").fadeOut("normal");
+						$("#shadow").fadeOut();
+						$("#profile").html("<a href='logout.php' id='logout'>Logout</a>");
+
+					  }
+					  else
+					  {
+							$("#add_err").html("<label class='error'>Usuario o Clave incorrectos</label>");
+					  }
+					},
+					beforeSend:function()
+					{
+						 $("#add_err").html("Cargando...");
+					}
+				});
+				 return false;
+			});
+		});
+function cerrar() {
+	$("#login_form").fadeOut();
+	$("#shadow").fadeOut();
+	$("#er_home").fadeOut();
+	$("#er_home2").fadeOut();
+}
+
+	</script>
+</head>
+<body>
+<div id="superior">
+	<table border="0" width="70%" height="100%" align="center">
+		<tr>
+			<td rowspan="2" align="center" valign="middle"><img src="img/logo_web_peque.png" width="250px" height="100px"></td>
+			<td colspan="2" align="center"><label class="titulo">SIMLA</label></td>
+		</tr>
+			<td colspan="2" align="center" valign="top"><label class="sub_titulo">Sistema Integrado Para la Medicina Y Laboratorio</label></td>
+		<tr>
+		</tr>
+	</table>
+</div>
+<div id="navegacion">
+	<ul class="menu">
+		<li><a href="index.php">Inicio</a></li>
+		<li><a href="#">Servicios</a></li>
+		<li><a href="#">Portafolio</a></li>
+		<li><a href="DescargarResultadoLaboratorio.php">Descargar Resultados de laboratorio</a></li>		
+		<li><a href="#">Contactenos</a></li>
+	</ul>
+</div>
+<div id="informacion">
+	
+</div>
+<div id="informa">
+		<table border="0" width="100%" align="center">
+			<tr>
+				<td><label class="titulo_navegacion">SIMLA</label></td>
+			</tr>
+			<tr>
+				<td><label class="texto">SIMLA</label></td>
+			</tr>
+		</table>
+</div>
+	<div id="derecha">
+		<table border="0" width="95%" align="center">
+			<tr>
+				<td align="center"><label class="titulo_navegacion">Inicio de sision en Simla</label></td>
+			</tr>
+			<tr>
+				<td align="center">
+					<div align="justify"><label class="subt04">El usuario va apoder iniciar sesion para generar Facturas, Historias clinicas, y demas, <label class="fecha">Se aclara que solo pueden iniciar sesion los que esten registrados en el sistema.</label></label></div>
+					<br>
+					<input type="submit" name="login_a" id="login_a" value=" Iniciar de sesion en SIMLA ">
+				</td>
+			</tr>
+		</table>
+		<?php if($respuesta != ""){?>
+		<idv id="respuesta" class="error">
+			<label><?php echo $respuesta;?></label>
+		</idv>
+		<?php }?>
+	</div>
+<div id="login_form">
+	<div id="cerrar"><a href="javascript:void(0);" onclick="cerrar()"><img src="img/close.png" border="0"></a></div>
+      <iframe src="FormLogin.php" Scrolling="no" Frameborder="0" width="250"  height="400" Marginwidth="1px" Marginheight="1px"></iframe>
+</div>
+<div id="shadow" class="popup"></div>
+</body>
+</html>
